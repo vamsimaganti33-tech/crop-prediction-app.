@@ -12,7 +12,7 @@ import joblib
 # model = joblib.load('crop_prediction_model.pkl')
 
 # Load the data from your CSV file to get the list of unique values for dropdowns
-data = pd.read_csv("JHARKHAND_merged (1).xlsx - Sheet1.csv")
+ data = pd.read_csv("data.csv")
 
 # Get unique values for dropdowns from the CSV file
 districts = data['District'].unique()
@@ -63,3 +63,4 @@ if st.button("Get Suitable Crops"):
             st.success(f"**Crop:** {row['Crop']} - **Suitability:** {row['Suitability']}%")
     else:
         st.warning("No suitable crops found for the selected criteria.")
+
