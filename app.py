@@ -8,13 +8,24 @@ import joblib
 # For a full model, you would load the trained model here.
 # For this app, we'll use the data directly for a lookup.
 
-# Load the data from your CSV file. Make sure the filename matches exactly.
-# We are using "data.csv" which you mentioned in a previous conversation.
 try:
-    data = pd.read_csv("data.csv")
+    # Try reading the file with 'latin1' encoding, a common encoding for CSV files.
+    data = pd.read_csv("data.csv", encoding='latin1')
+except UnicodeDecodeError:
+    # If that fails, try 'cp1252', another common encoding.
+    try:
+        data = pd.read_csv("data.csv", encoding='cp1252')
+    except Exception as e:
+        # If both fail, report the error.
+        st.error(f"Error reading the data file: {e}")
+        st.stop()
 except FileNotFoundError:
     st.error("The data file 'data.csv' was not found. Please ensure it is uploaded to your GitHub repository.")
     st.stop()
+except Exception as e:
+    st.error(f"An unexpected error occurred: {e}")
+    st.stop()
+
 
 # Get unique values for dropdowns from the CSV file
 districts = data['District'].unique()
